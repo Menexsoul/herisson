@@ -118,7 +118,7 @@ const slides = [
   {
     id: "contes-2",
     type: "split",
-    title: "II. Conte et légende",
+    title: "II. Contes et légendes",
     subtitle: "Récit 2 : L'animal créateur et sage (Légendes Roms)",
     content: (
       <div className="space-y-6">
