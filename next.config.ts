@@ -8,8 +8,13 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  // Paramètres requis pour le déploiement statique dans un sous-dossier
+  output: "export",
+  basePath: "/Thomas",
+  
   // Allow access to remote image placeholder.
   images: {
+    unoptimized: true, // Obligatoire avec output: "export" pour éviter les erreurs de build
     remotePatterns: [
       {
         protocol: "https",
@@ -34,6 +39,35 @@ const nextConfig: NextConfig = {
         hostname: "www.francebleu.fr",
         port: "",
         pathname: "/pikapi/images/**",
+      },
+      {
+        protocol: "https",
+        hostname: "active-radio.fr",
+        port: "",
+        pathname: "/wp-content/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "afjv.com",
+        port: "",
+        pathname: "/2018/02/**",
+      },
+    ],
+  },
+  transpilePackages: ["motion"],
+  webpack: (config, { dev }) => {
+    // HMR is disabled in AI Studio via DISABLE_HMR env var.
+    // Do not modify—file watching is disabled to prevent flickering during agent edits.
+    if (dev && process.env.DISABLE_HMR === "true") {
+      config.watchOptions = {
+        ignored: /.*/,
+      };
+    }
+    return config;
+  },
+};
+
+export default nextConfig;
       },
       {
         protocol: "https",
