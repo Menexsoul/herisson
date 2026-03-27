@@ -8,19 +8,19 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  // Paramètres requis pour le déploiement statique dans un sous-dossier
+
+  // Paramètres pour GitHub Pages
   output: "export",
-  basePath: "/Thomas",
-  
-  // Allow access to remote image placeholder.
+  basePath: "/herisson", // <-- Le nom exact de ton dépôt
+
   images: {
-    unoptimized: true, // Obligatoire avec output: "export" pour éviter les erreurs de build
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
         hostname: "picsum.photos",
         port: "",
-        pathname: "/**", // This allows any path under the hostname
+        pathname: "/**",
       },
       {
         protocol: "https",
@@ -56,42 +56,8 @@ const nextConfig: NextConfig = {
   },
   transpilePackages: ["motion"],
   webpack: (config, { dev }) => {
-    // HMR is disabled in AI Studio via DISABLE_HMR env var.
-    // Do not modify—file watching is disabled to prevent flickering during agent edits.
     if (dev && process.env.DISABLE_HMR === "true") {
-      config.watchOptions = {
-        ignored: /.*/,
-      };
-    }
-    return config;
-  },
-};
-
-export default nextConfig;
-      },
-      {
-        protocol: "https",
-        hostname: "active-radio.fr",
-        port: "",
-        pathname: "/wp-content/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "afjv.com",
-        port: "",
-        pathname: "/2018/02/**",
-      },
-    ],
-  },
-  output: "standalone",
-  transpilePackages: ["motion"],
-  webpack: (config, { dev }) => {
-    // HMR is disabled in AI Studio via DISABLE_HMR env var.
-    // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
-    if (dev && process.env.DISABLE_HMR === "true") {
-      config.watchOptions = {
-        ignored: /.*/,
-      };
+      config.watchOptions = { ignored: /.*/ };
     }
     return config;
   },
